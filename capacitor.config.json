@@ -1,0 +1,8 @@
+{
+  "appId": "com.angelvmar.mapa",
+  "appName": "Mapa Turístico",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}
