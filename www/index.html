@@ -3,94 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Mapa Turístico Cancún - Tulum</title>
+  <title>Mapa Turístico</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-  <style>
-    html, body { margin:0; padding:0; height:100%; }
-    #map { height:100vh; width:100vw; }
-    .filtros {
-      position:absolute; top:10px; left:50%; transform:translateX(-50%);
-      z-index:1000; background:#fff; padding:8px; border-radius:8px;
-      box-shadow:0 2px 6px rgba(0,0,0,0.3); display:flex; gap:6px;
-    }
-    .filtros button {
-      border:none; padding:6px 10px; border-radius:6px; font-size:12px;
-      background:#eee; cursor:pointer;
-    }
-    .filtros button.activo { background:#0077cc; color:#fff; }
-  </style>
+  <style>html,body{margin:0;height:100%}#map{height:100vh;width:100vw}</style>
 </head>
 <body>
-  <div class="filtros">
-    <button data-zona="todas" class="activo">Todas</button>
-    <button data-zona="cancun">Cancún</button>
-    <button data-zona="costa-mujeres">Costa Mujeres</button>
-    <button data-zona="riviera">Riviera Maya</button>
-    <button data-zona="tulum">Tulum</button>
-  </div>
   <div id="map"></div>
-
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script>
-    const map = L.map('map').setView([20.65, -87.05], 9);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap',
-      maxZoom: 19
-    }).addTo(map);
-
-    // Colores por zona
-    const colores = {
-      cancun: '#0077cc',
-      'costa-mujeres': '#00aa66',
-      riviera: '#ff8800',
-      tulum: '#cc0044'
-    };
-
-    // Hoteles de ejemplo (aquí meterás tu lista completa)
-    const hoteles = [
-      { nombre:'Riu Cancún', zona:'cancun', lat:21.1215, lng:-86.7630, estrellas:5 },
-      { nombre:'Grand Palladium Costa Mujeres', zona:'costa-mujeres', lat:21.2360, lng:-86.8050, estrellas:5 },
-      { nombre:'Grand Hyatt Playa del Carmen', zona:'riviera', lat:20.6296, lng:-87.0739, estrellas:5 },
-      { nombre:'Azulik Tulum', zona:'tulum', lat:20.1740, lng:-87.4490, estrellas:5 }
-    ];
-
-    const marcadores = [];
-
-    hoteles.forEach(h => {
-      const marcador = L.circleMarker([h.lat, h.lng], {
-        radius: 8,
-        color: '#fff',
-        weight: 2,
-        fillColor: colores[h.zona] || '#888',
-        fillOpacity: 1
-      }).addTo(map);
-
-      marcador.bindPopup(`
-        <strong>${h.nombre}</strong><br>
-        Zona: ${h.zona}<br>
-        ${'⭐'.repeat(h.estrellas)}
-      `);
-
-      marcador.zona = h.zona;
-      marcadores.push(marcador);
-    });
-
-    // Filtros
-    document.querySelectorAll('.filtros button').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.filtros button').forEach(b => b.classList.remove('activo'));
-        btn.classList.add('activo');
-        const zona = btn.dataset.zona;
-        marcadores.forEach(m => {
-          if (zona === 'todas' || m.zona === zona) {
-            m.addTo(map);
-          } else {
-            map.removeLayer(m);
-          }
-        });
-      });
-    });
-  </script>
+  <script src="hoteles.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
